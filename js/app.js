@@ -89,11 +89,14 @@ var app = {
     goToLeft () {
         
         app.player.direction = 'left';
+        let valueBeforeMove = app.player.x;
+        let XorY = 'x';
         app.player.x -= 1;
         if (app.player.x < 0) {
             app.player.x = 0;
-            return;
+            return app.player.x = valueBeforeMove;
         }
+        app.checkStones(XorY,valueBeforeMove);
         app.player.score += 1;
         app.redrawBoard ();
 
@@ -101,11 +104,14 @@ var app = {
     goToRight () {
         
         app.player.direction = 'right';
+        let valueBeforeMove = app.player.x;
+        let XorY = 'x';
         app.player.x += 1;
         if (app.player.x > app.board.x -1) {
             app.player.x = app.board.x -1;
-            return;
+            return app.player.x = valueBeforeMove;
         }
+        app.checkStones(XorY,valueBeforeMove);
         app.player.score += 1;
         app.redrawBoard ();
 
@@ -113,11 +119,14 @@ var app = {
     goToUp () {
         
         app.player.direction = 'up';
+        let valueBeforeMove = app.player.y;
+        let XorY = 'y';
         app.player.y -= 1;
         if (app.player.y < 0) {
             app.player.y = 0;
-            return;
+            return app.player.y = valueBeforeMove;
         }
+        app.checkStones(XorY,valueBeforeMove);
         app.player.score += 1;
         app.redrawBoard ();
 
@@ -125,15 +134,30 @@ var app = {
     goToDown () {
         
         app.player.direction = 'down';
+        let valueBeforeMove = app.player.y;
+        let XorY = 'y';
         app.player.y += 1;
         if (app.player.y > app.board.y-1) {
-            app.player.y = app.board.y-1;
-            return;
+            return app.player.y = valueBeforeMove;
         }
+        app.checkStones(XorY,valueBeforeMove);
         app.player.score += 1;
         app.redrawBoard ();
 
     },
+
+
+    checkStones (XorY, valueBeforeMove) {
+
+        for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {
+            if (app.player.x === (app.stones[indexArrayStones].x)  && (app.player.y === app.stones[indexArrayStones].y)) {
+                app.player.score -= 1;
+                return app.player[XorY] = valueBeforeMove;
+            }
+        }
+
+    },
+
 
     
     isGameOver () {
