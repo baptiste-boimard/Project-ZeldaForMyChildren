@@ -6,46 +6,32 @@ var app = {
         x : 0,
         y : 0,
         direction : 'right',
+        score : 0,
     },
     //la position de la cible
     targetCell : {
-        x : 5,
-        y : 3,
+        x : 7,
+        y : 4,
     },
 
     stones : [
-        {
-            x : 3,
-            y : 2,
-        },
-        {
-            x : 2,
-            y : 0,
-        },
-        {
-            x : 5,
-            y : 2,
-        },
-        {
-            x : 2,
-            y : 3,
-        }
+        {x : 3,y : 2,},
+        {x : 2,y : 0,},
+        {x : 5,y : 2,},
+        {x : 2,y : 3,}
     ],
     
-
     board : {
-        x : 6,
-        y : 4,
+        x : 8,
+        y : 5,
     },
 
     boardElm : document.querySelector('#board'),
 
     gameOver : false,
+   
 
-    score : 0,
-
-    drawBoard (boardX = 6, boardY = 4) {
-      
+    drawBoard (boardX = app.board.x, boardY = app.board.y) {
       
         for (let indexY=0; indexY < boardY ; indexY++) {
             const boardRowElm = document.createElement('div');
@@ -61,14 +47,8 @@ var app = {
                     playerElm.classList.add('player',`player__direction--${app.player.direction}`);                    
                     boardCellElm.append(playerElm);                 
                 }
-                // if (indexX === (app.stones.stone1.x)  && (indexY === app.stones.stone1.y)) 
-                //     boardCellElm.classList.add('stone');
-                // if (indexX === (app.stones.stone2.x)  && (indexY === app.stones.stone2.y)) 
-                //     boardCellElm.classList.add('stone');
-                // if (indexX === (app.stones.stone3.x)  && (indexY === app.stones.stone3.y)) 
-                //     boardCellElm.classList.add('stone');
-                // if (indexX === (app.stones.stone4.x)  && (indexY === app.stones.stone4.y)) 
-                //     boardCellElm.classList.add('stone');
+                
+                app.drawStone (indexX,indexY,boardCellElm);
 
                 boardRowElm.append(boardCellElm);
             }
@@ -76,89 +56,23 @@ var app = {
         }
         app.isGameOver();
     },
-
+    drawStone (indexX, indexY, boardCellElm) {
+        for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {
+            if (indexX === (app.stones[indexArrayStones].x)  && (indexY === app.stones[indexArrayStones].y)) {
+                boardCellElm.classList.add('stone');
+            }
+        }
+    },
     clearBoard () {
         app.boardElm.textContent = '';
     },
-
     redrawBoard () {
         app.clearBoard();
         app.drawBoard();
     },
-
-    
-
-    turnRight () {
-
-        if (app.gameOver === true) {
-            return;
-        }
-
-        switch(app.player.direction) {
-        case 'right' :
-            app.player.direction = 'down';
-            break;
-        case 'down' :
-            app.player.direction = 'left';
-            break;
-        case 'left' :
-            app.player.direction = 'up';
-            break;
-        case 'up' :
-            app.player.direction = 'right';
-            break;
-        default : 
-            console.log('Impossible de tourner');        
-        }
-        app.score += +1;
-        app.redrawBoard ();
-    },
-
-    moveForward () {
-
-        if (app.gameOver === true) {
-            return;
-        }
-
-
-        switch(app.player.direction) {
-        case 'right' :
-            app.player.x += 1 ;
-            if (app.player.x > 5) {
-                app.player.x = 5;
-            }
-            break;
-        case 'down' :
-            app.player.y += 1 ;
-            if (app.player.y > 3) {
-                app.player.y = 3;
-            }
-            break;
-        case 'left' :
-            app.player.x -= 1;
-            if (app.player.x < 0) {
-                app.player.x = 0;
-            }
-            break;
-        case 'up' :
-            app.player.y -= 1 ;
-            if (app.player.y < 0) {
-                app.player.y = 0;
-            }
-            break;
-        default : 
-            console.log('Impossible de tourner');        
-        }
-        app.score += +1;
-        app.redrawBoard ();
-    },
-
     listenKeyboardEvents () {
         document.addEventListener ('keyup', app.handleKeyboardEvents);
     },
-
-
-    // ===================================================================
     handleKeyboardEvents (event) {
         const keyupPressed = event.key;
         switch(keyupPressed) {
@@ -172,52 +86,54 @@ var app = {
             break;
         }
     },
-    
     goToLeft () {
         
         app.player.direction = 'left';
         app.player.x -= 1;
         if (app.player.x < 0) {
             app.player.x = 0;
+            return;
         }
+        app.player.score += 1;
         app.redrawBoard ();
 
     },
-
     goToRight () {
         
         app.player.direction = 'right';
         app.player.x += 1;
         if (app.player.x > app.board.x -1) {
             app.player.x = app.board.x -1;
+            return;
         }
+        app.player.score += 1;
         app.redrawBoard ();
 
     },
-
     goToUp () {
         
         app.player.direction = 'up';
         app.player.y -= 1;
         if (app.player.y < 0) {
             app.player.y = 0;
+            return;
         }
+        app.player.score += 1;
         app.redrawBoard ();
 
     },
-
     goToDown () {
         
         app.player.direction = 'down';
         app.player.y += 1;
         if (app.player.y > app.board.y-1) {
             app.player.y = app.board.y-1;
+            return;
         }
+        app.player.score += 1;
         app.redrawBoard ();
 
     },
-
-
 
     
     isGameOver () {
@@ -237,7 +153,7 @@ var app = {
         winDivElm.append(winText);
         winDivElm.append(buttonRejouer);
 
-        winText.textContent = `Bravo vous avez gagné !! en ${app.score} coups`;
+        winText.textContent = `Bravo vous avez gagné !! en ${app.player.score} coups`;
         buttonRejouer.textContent = 'Rejouer';
 
         app.boardElm.append(winDivElm);
