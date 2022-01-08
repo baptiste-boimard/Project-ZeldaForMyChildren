@@ -15,10 +15,14 @@ var app = {
     },
 
     stones : [
-        {x : 3,y : 2,},
-        {x : 2,y : 0,},
-        {x : 5,y : 2,},
-        {x : 2,y : 3,}
+        {x : 3,y : 2},
+        {x : 2,y : 0},
+        {x : 5,y : 2},
+        {x : 2,y : 3},
+        {x : 1,y : 1},
+        {x : 1,y : 2},
+        {x : 5,y : 3},
+        {x : 5,y : 4},
     ],
     
     board : {
@@ -27,6 +31,8 @@ var app = {
     },
 
     boardElm : document.querySelector('#board'),
+    // playerElm : document.createElement('div'),
+    // cofferElm : document.createElement('div'),
 
     gameOver : false,
    
@@ -40,8 +46,9 @@ var app = {
                 const boardCellElm = document.createElement('div');
                 boardCellElm.classList.add('cell');
                 
-                if (indexX === (app.targetCell.x)  && (indexY === app.targetCell.y)) 
-                    boardCellElm.classList.add('targetCell');
+                if (indexX === (app.targetCell.x)  && (indexY === app.targetCell.y)) {
+                    boardCellElm.classList.add('coffer');
+                }
                 if (indexX === (app.player.x)  && (indexY === app.player.y)) {               
                     const playerElm = document.createElement('div');
                     playerElm.classList.add('player',`player__direction--${app.player.direction}`);                    
@@ -54,12 +61,14 @@ var app = {
             }
             app.boardElm.append(boardRowElm);
         }
-        app.isGameOver();
+        app.isGameOver(app.playerElm, app.cofferElm);
     },
     drawStone (indexX, indexY, boardCellElm) {
         for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {
             if (indexX === (app.stones[indexArrayStones].x)  && (indexY === app.stones[indexArrayStones].y)) {
-                boardCellElm.classList.add('stone');
+                const stoneElm = document.createElement('div');
+                stoneElm.classList.add('stone');
+                boardCellElm.append(stoneElm);
             }
         }
     },
@@ -145,8 +154,6 @@ var app = {
         app.redrawBoard ();
 
     },
-
-
     checkStones (XorY, valueBeforeMove) {
 
         for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {

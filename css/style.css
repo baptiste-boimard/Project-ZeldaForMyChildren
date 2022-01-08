@@ -25,15 +25,18 @@ body {
 
 .cell {
     background-color: white;
+    background-image: url(../img/grassZelda.png);
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 70px;
     height: 70px;
-    border: 1px solid black;
+    /* border: 1px solid black; */
     box-sizing: border-box; 
     /* ajoute les bordures à l'intérieur */
 }
 
-.targetCell {
-    background-image: url(../img/coffre-au-trésor-d-art-de-pixel-vecteur-121033765.jpg);
+.coffer {
+    background-image: url(../img/cofferOnGrass.png);
     background-size: cover;
 }
 
@@ -70,6 +73,10 @@ body {
 }
 
 .stone {
-    background-image: url(../img/8fd9223acb89db4.png);
+    width: 70px;
+    height: 70px;
+    background-image: url(../img/bigStoneZelda.png);
+    transform: scale(0.8);
     background-size: cover;
+    margin :0px;
 }
