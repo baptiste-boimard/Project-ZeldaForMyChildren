@@ -1,0 +1,75 @@
+body {
+  background: #ddd;
+  position: relative;
+}
+
+.player {
+    width: 28px;
+    height: 32px;
+    background-image: url(../img/sprite.png);
+    transform: scale(1.5);
+    margin: 20px;
+}
+
+.board {
+    background-color: rgb(192, 192, 192);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.row {
+    display: flex;
+}
+
+.cell {
+    background-color: white;
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+    box-sizing: border-box; 
+    /* ajoute les bordures à l'intérieur */
+}
+
+.targetCell {
+    background-image: url(../img/coffre-au-trésor-d-art-de-pixel-vecteur-121033765.jpg);
+    background-size: cover;
+}
+
+.player__direction--up {
+    background-position-y: -96px;
+}
+.player__direction--left {
+    background-position-y: -32px;
+}
+.player__direction--down {
+    background-position-y: 0px;
+}
+.player__direction--right {
+    background-position-y: -64px;
+}
+
+.winDiv {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    z-index: 2;
+    height: 20vh;
+    width: 500px;
+    background-color: orange;
+    font-size: 2em;
+    padding :10px;
+    text-align: center;
+    border: 5px solid orangered;
+}
+.buttonRejouer {
+    padding: 8px;
+}
+
+.stone {
+    background-image: url(../img/8fd9223acb89db4.png);
+    background-size: cover;
+}
