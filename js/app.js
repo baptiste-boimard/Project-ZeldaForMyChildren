@@ -24,6 +24,8 @@ var app = {
         {x : 1,y : 2},
         {x : 5,y : 3},
         {x : 5,y : 4},
+        {x : 7,y : 3},
+        {x : 6,y : 1},
     ],
     
     board : {
@@ -61,7 +63,7 @@ var app = {
             }
             app.boardElm.append(boardRowElm);
         }
-        app.isGameOver(app.playerElm, app.cofferElm);
+        app.isGameOver();
     },
     drawStone (indexX, indexY, boardCellElm) {
         for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {
@@ -79,9 +81,11 @@ var app = {
         app.clearBoard();
         app.drawBoard();
     },
-    
     goToLeft () {
         
+        if (app.gameOver === true)
+            return;
+
         app.player.direction = 'left';
         let valueBeforeMove = app.player.x;
         let XorY = 'x';
@@ -97,6 +101,9 @@ var app = {
     },
     goToRight () {
         
+        if (app.gameOver === true)
+            return;
+
         app.player.direction = 'right';
         let valueBeforeMove = app.player.x;
         let XorY = 'x';
@@ -112,6 +119,9 @@ var app = {
     },
     goToUp () {
         
+        if (app.gameOver === true)
+            return;
+
         app.player.direction = 'up';
         let valueBeforeMove = app.player.y;
         let XorY = 'y';
@@ -127,6 +137,9 @@ var app = {
     },
     goToDown () {
         
+        if (app.gameOver === true)
+            return;
+
         app.player.direction = 'down';
         let valueBeforeMove = app.player.y;
         let XorY = 'y';
@@ -149,9 +162,6 @@ var app = {
         }
 
     },
-
-
-    
     isGameOver () {
         if (app.player.x === app.targetCell.x && app.player.y === app.targetCell.y) {
             app.gameOver = true;
@@ -160,24 +170,49 @@ var app = {
         }
     },
     isWin () {
+        
+        app.createWinningBox();
+
+        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
+        winDivLeftH1.textContent = `Bravo ${app.player.name} tu as gagné !!`;
+        const winDivLeftP = document.querySelector('.winDivLeftP'); 
+        winDivLeftP.textContent = `Tu as fait ${app.player.score} déplacements`;
+        const winDivLeftButtonNext = document.querySelector('.winDivLeftButtonNext');
+        winDivLeftButtonNext.textContent ='Niveau suivant =>';
+        const winDivLeftButtonReplay = document.querySelector ('.winDivLeftButtonReplay');
+        winDivLeftButtonReplay.textContent ='Rejouer ?';
+        // buttonRejouer.textContent = 'Rejouer';
+
+
+
+
+    },
+    createWinningBox () {
         const winDivElm = document.createElement('div');
-        winDivElm.classList.add('winDiv');
-        const buttonRejouer = document.createElement('button'); 
-        buttonRejouer.classList.add('buttonRejouer');
-        const winText = document.createElement('p');
-
-        winDivElm.append(winText);
-        winDivElm.append(buttonRejouer);
-
-        winText.textContent = `Bravo vous avez gagné !! en ${app.player.score} coups`;
-        buttonRejouer.textContent = 'Rejouer';
+        winDivElm.classList.add('winDivElm');
+        const winDivLeftElm = document.createElement('div');
+        winDivLeftElm.classList.add('winDivLeftElm');
+        const winDivLeftH1 = document.createElement('h1');
+        winDivLeftH1.classList.add('winDivLeftH1');
+        const winDivLeftP = document.createElement('p');
+        winDivLeftP.classList.add('winDivLeftP');
+        const winDivLeftDivButton = document.createElement('div');
+        winDivLeftDivButton.classList.add('winDivLeftDivButton');
+        const winDivLeftButtonReplay = document.createElement('button');
+        winDivLeftButtonReplay.classList.add('winDivLeftButtonReplay');
+        const winDivLeftButtonNext = document.createElement('button');
+        winDivLeftButtonNext.classList.add('winDivLeftButtonNext');
+        const winDivRightElm = document.createElement('div');
+        winDivRightElm.classList.add('winDivRightElm');
+            
+        winDivElm.append(winDivLeftElm, winDivRightElm);
+        winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
+        winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
 
         app.boardElm.append(winDivElm);
 
         document.addEventListener('keyup', app.handleOnKeyPress);
-        buttonRejouer.addEventListener('click', app.handleOnClickButton);
-
-
+        winDivLeftButtonReplay.addEventListener('click', app.handleOnClickButton);
     },
     listenKeyboardEvents () {
         document.addEventListener ('keyup', app.handleKeyboardEvents);
