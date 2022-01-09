@@ -7,6 +7,7 @@ var app = {
         y : 0,
         direction : 'right',
         score : 0,
+        name :'Link',
     },
     //la position de la cible
     targetCell : {
@@ -31,8 +32,7 @@ var app = {
     },
 
     boardElm : document.querySelector('#board'),
-    // playerElm : document.createElement('div'),
-    // cofferElm : document.createElement('div'),
+    inputSelectLvlElm : document.querySelector('#input-selectLvl'),
 
     gameOver : false,
    
@@ -79,22 +79,7 @@ var app = {
         app.clearBoard();
         app.drawBoard();
     },
-    listenKeyboardEvents () {
-        document.addEventListener ('keyup', app.handleKeyboardEvents);
-    },
-    handleKeyboardEvents (event) {
-        const keyupPressed = event.key;
-        switch(keyupPressed) {
-        case 'ArrowLeft' : app.goToLeft();
-            break;
-        case 'ArrowRight' : app.goToRight();
-            break;
-        case 'ArrowUp' : app.goToUp();
-            break;
-        case 'ArrowDown' : app.goToDown();
-            break;
-        }
-    },
+    
     goToLeft () {
         
         app.player.direction = 'left';
@@ -194,6 +179,26 @@ var app = {
 
 
     },
+    listenKeyboardEvents () {
+        document.addEventListener ('keyup', app.handleKeyboardEvents);
+    },
+    listenEventInputNameElm () {
+        const buttonInputNameElm = document.querySelector('#button-inputName');
+        buttonInputNameElm.addEventListener ('click', app.handleSubmitHeroName);
+    },
+    handleKeyboardEvents (event) {
+        const keyupPressed = event.key;
+        switch(keyupPressed) {
+        case 'ArrowLeft' : app.goToLeft();
+            break;
+        case 'ArrowRight' : app.goToRight();
+            break;
+        case 'ArrowUp' : app.goToUp();
+            break;
+        case 'ArrowDown' : app.goToDown();
+            break;
+        }
+    },
     handleOnKeyPress (event) {
         if (event.key === ' ') {
             location.reload();
@@ -202,8 +207,16 @@ var app = {
     handleOnClickButton () {
         location.reload();
     },
+    handleSubmitHeroName (event) {
+        event.preventDefault();
+        const inputNameElm = document.querySelector('#input-name');
+        const inputNameElmValue = inputNameElm.value;
+        inputNameElm.style.placeholder = inputNameElmValue;
+        app.player.name = inputNameElmValue;
+    },
     init () {
         app.listenKeyboardEvents();
+        app.listenEventInputNameElm();
         app.drawBoard();
     },
 };

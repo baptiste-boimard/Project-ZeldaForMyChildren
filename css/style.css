@@ -1,6 +1,40 @@
 body {
-  background: #ddd;
+  background: #D5EEBB;
   position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 4em;
+}
+
+.nav {
+    background-color: #7FC8A9;
+    height: 20vh;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    border: none;
+    border: 2px solid #5F7A61;
+    padding: 5px;
+
+}
+
+.button-form {
+    color: #D5EEBB;
+    border: none;
+    background-color: #5F7A61;
+    border: 2px solid #5F7A61;
+    padding: 5px;
+
+}
+.form-inputSelectLvl {
+    margin-left: 4px;
 }
 
 .player {
@@ -12,8 +46,8 @@ body {
 }
 
 .board {
-    background-color: rgb(192, 192, 192);
-    height: 100vh;
+    background-color: #D5EEBB;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

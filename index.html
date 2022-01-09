@@ -7,9 +7,27 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="board" class="board">
-
-  </div>
+    <nav id="nav" class="nav">
+        <form class="form-inputName">
+            <input
+            id="input-name"
+            class="input"
+            type="text"
+            placeholder="Quel est ton nom héros ?"
+            name="heroName"
+            value=''>
+            <button id="button-inputName" class="button-form">Valider</button>
+        </form>
+        <form class="form-inputSelectLvl">
+            <input
+            id="input-selectLvl"
+            class="input"
+            placeholder="Choisis ton niveau"
+            type="">
+            <button class="button-form">Valider</button>
+    </form>
+    </nav>
+    <div id="board" class="board"></div>
   <script src="js/app.js" charset="utf-8"></script>
 </body>
 </html>
