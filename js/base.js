@@ -1,4 +1,4 @@
-var app = {
+var base = {
 
     //je définis mes variables
     //position du joueur
@@ -38,11 +38,47 @@ var app = {
 
     gameOver : false,
    
+    /**
+     * Dessine le board
+     * @property {number} boardX - Taille X du board
+     * @property {number} boardY- Taille Y du board
+     * @property {number} playerX- Coordonée X du player
+     * @property {number} playerY- Coordonée Y du player
+     * @property {number} targetCellX- Coordonée X du coffre
+     * @property {number} targetCellY- Coordonée Y du coffre
+     * @property {string} playerDirection- Orientation de départ du perso
+     */
+    drawBoard (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray) {
+      
+        for (let indexY = 0; indexY < boardY ; indexY++) {
+            const boardRowElm = document.createElement('div');
+            boardRowElm.classList.add('row');
+            for(let indexX = 0;indexX<boardX;indexX++ ) {
+                const boardCellElm = document.createElement('div');
+                boardCellElm.classList.add('cell');
+                
+                if (indexX === (targetCellX)  && (indexY === targetCellY)) {
+                    boardCellElm.classList.add('coffer');
+                }
+                if (indexX === (playerX)  && (indexY === playerY)) {               
+                    const playerElm = document.createElement('div');
+                    playerElm.classList.add('player',`player__direction--${playerDirection}`);                    
+                    boardCellElm.append(playerElm);                 
+                }
+                
+                base.drawStone (indexX,indexY,boardCellElm,stonesArray);
 
-    
-    drawStone (indexX, indexY, boardCellElm) {
-        for (let indexArrayStones=0;indexArrayStones<app.stones.length;indexArrayStones++) {
-            if (indexX === (app.stones[indexArrayStones].x)  && (indexY === app.stones[indexArrayStones].y)) {
+                boardRowElm.append(boardCellElm);
+            }
+            base.boardElm.append(boardRowElm);
+
+        }
+        base.isGameOver(playerX, playerY, targetCellX, targetCellY);
+    },
+
+    drawStone (indexX, indexY, boardCellElm, stonesArray) {
+        for (let indexArrayStones=0;indexArrayStones<stonesArray.length;indexArrayStones++) {
+            if (indexX === (stonesArray[indexArrayStones].x)  && (indexY === stonesArray[indexArrayStones].y)) {
                 const stoneElm = document.createElement('div');
                 stoneElm.classList.add('stone');
                 boardCellElm.append(stoneElm);
@@ -58,7 +94,7 @@ var app = {
     },
     goToLeft () {
         
-        if (app.gameOver === true)
+        if (base.gameOver === true)
             return;
 
         app.player.direction = 'left';
@@ -76,7 +112,7 @@ var app = {
     },
     goToRight () {
         
-        if (app.gameOver === true)
+        if (base.gameOver === true)
             return;
 
         app.player.direction = 'right';
@@ -94,7 +130,7 @@ var app = {
     },
     goToUp () {
         
-        if (app.gameOver === true)
+        if (base.gameOver === true)
             return;
 
         app.player.direction = 'up';
@@ -112,7 +148,7 @@ var app = {
     },
     goToDown () {
         
-        if (app.gameOver === true)
+        if (base.gameOver === true)
             return;
 
         app.player.direction = 'down';
@@ -137,16 +173,16 @@ var app = {
         }
 
     },
-    isGameOver () {
-        if (app.player.x === app.targetCell.x && app.player.y === app.targetCell.y) {
-            app.gameOver = true;
-            setTimeout(app.isWin(), 200);
+    isGameOver (playerX, playerY, targetCellX, targetCellY) {
+        if (playerX === targetCellX && playerY === targetCellY) {
+            base.gameOver = true;
+            setTimeout(base.isWin(), 200);
             return;
         }
     },
     isWin () {
         
-        app.createWinningBox();
+        base.createWinningBox();
 
         const winDivLeftH1 = document.querySelector('.winDivLeftH1');
         winDivLeftH1.textContent = `Bravo ${app.player.name} tu as gagné !!`;
@@ -184,10 +220,10 @@ var app = {
         winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
         winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
 
-        app.boardElm.append(winDivElm);
+        base.boardElm.append(winDivElm);
 
-        document.addEventListener('keyup', app.handleOnKeyPress);
-        winDivLeftButtonReplay.addEventListener('click', app.handleOnClickButton);
+        document.addEventListener('keyup', base.handleOnKeyPress);
+        winDivLeftButtonReplay.addEventListener('click', base.handleOnClickButton);
     },
     listenKeyboardEvents () {
         document.addEventListener ('keyup', app.handleKeyboardEvents);
@@ -227,9 +263,8 @@ var app = {
     init () {
         app.listenKeyboardEvents();
         app.listenEventInputNameElm();
-        base.drawBoard(app.board.x,app.board.y,app.player.x,app.player.y, app.targetCell.x,
-            app.targetCell.y,app.player.direction,app.stones);
+        app.drawBoard();
     },
 };
 
-document.addEventListener('DOMContentLoaded', app.init);
+
