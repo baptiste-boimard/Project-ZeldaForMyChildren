@@ -30,8 +30,7 @@ var app = {
     
     board : {
         x : 8,
-        y : 5,
-    },
+        y : 5,stonesArray
 
     boardElm : document.querySelector('#board'),
     inputSelectLvlElm : document.querySelector('#input-selectLvl'),
@@ -80,8 +79,7 @@ var app = {
             return;
 
         app.player.direction = 'right';
-        let valueBeforeMove = app.player.x;
-        let XorY = 'x';
+        let valueBeforeMove = app.player.stonesArray
         app.player.x += 1;
         if (app.player.x > app.board.x -1) {
             app.player.x = app.board.x -1;
@@ -225,7 +223,8 @@ var app = {
         app.player.name = inputNameElmValue;
     },
     init () {
-        app.listenKeyboardEvents();
+        base.listenKeyboardEvents(app.player.direction,app.board.x,app.board.y);
+        debugger;
         app.listenEventInputNameElm();
         base.drawBoard(app.board.x,app.board.y,app.player.x,app.player.y, app.targetCell.x,
             app.targetCell.y,app.player.direction,app.stones);

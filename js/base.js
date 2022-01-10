@@ -9,29 +9,9 @@ var base = {
         score : 0,
         name :'Link',
     },
-    //la position de la cible
-    targetCell : {
-        x : 7,
-        y : 4,
-    },
-
-    stones : [
-        {x : 3,y : 2},
-        {x : 2,y : 0},
-        {x : 5,y : 2},
-        {x : 2,y : 3},
-        {x : 1,y : 1},
-        {x : 1,y : 2},
-        {x : 5,y : 3},
-        {x : 5,y : 4},
-        {x : 7,y : 3},
-        {x : 6,y : 1},
-    ],
-    
-    board : {
-        x : 8,
-        y : 5,
-    },
+    targetCell : {x : 7,y : 4,},
+    stones : [],
+    board : {x :0,y :0},
 
     boardElm : document.querySelector('#board'),
     inputSelectLvlElm : document.querySelector('#input-selectLvl'),
@@ -50,6 +30,17 @@ var base = {
      */
     drawBoard (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray) {
       
+        base.board.x = boardX;
+        base.board.y = boardY;
+        base.player.x = playerX;
+        base.player.y = playerY;
+        base.targetCell.x = targetCellX;
+        base.targetCell.y = targetCellY;
+        base.player.direction = playerDirection;
+        base.stones = stonesArray;
+
+        debugger;
+
         for (let indexY = 0; indexY < boardY ; indexY++) {
             const boardRowElm = document.createElement('div');
             boardRowElm.classList.add('row');
@@ -86,11 +77,11 @@ var base = {
         }
     },
     clearBoard () {
-        app.boardElm.textContent = '';
+        base.boardElm.textContent = '';
     },
     redrawBoard () {
-        app.clearBoard();
-        app.drawBoard();
+        base.clearBoard();
+        base.drawBoard();
     },
     goToLeft () {
         
@@ -146,21 +137,21 @@ var base = {
         app.redrawBoard ();
 
     },
-    goToDown () {
+    goToDown (playerDirection, playerY) {
         
         if (base.gameOver === true)
             return;
 
-        app.player.direction = 'down';
-        let valueBeforeMove = app.player.y;
+        playerDirection = 'down';
+        let valueBeforeMove = playerY;
         let XorY = 'y';
-        app.player.y += 1;
-        if (app.player.y > app.board.y-1) {
-            return app.player.y = valueBeforeMove;
+        playerY += 1;
+        if (playerY > playerY-1) {
+            return playerY = valueBeforeMove;
         }
-        app.checkStones(XorY,valueBeforeMove);
-        app.player.score += 1;
-        app.redrawBoard ();
+        base.checkStones(XorY,valueBeforeMove);
+        playerY.score += 1;
+        base.redrawBoard ();
 
     },
     checkStones (XorY, valueBeforeMove) {
@@ -176,6 +167,7 @@ var base = {
     isGameOver (playerX, playerY, targetCellX, targetCellY) {
         if (playerX === targetCellX && playerY === targetCellY) {
             base.gameOver = true;
+            debugger;
             setTimeout(base.isWin(), 200);
             return;
         }
@@ -225,23 +217,25 @@ var base = {
         document.addEventListener('keyup', base.handleOnKeyPress);
         winDivLeftButtonReplay.addEventListener('click', base.handleOnClickButton);
     },
-    listenKeyboardEvents () {
-        document.addEventListener ('keyup', app.handleKeyboardEvents);
+    listenKeyboardEvents (playerDirection,playerX, playerY) {
+        debugger;
+        document.addEventListener ('keyup', base.handleKeyboardEvents, playerDirection,playerX, playerY);
     },
     listenEventInputNameElm () {
         const buttonInputNameElm = document.querySelector('#button-inputName');
-        buttonInputNameElm.addEventListener ('click', app.handleSubmitHeroName);
+        buttonInputNameElm.addEventListener ('click', base.handleSubmitHeroName);
     },
-    handleKeyboardEvents (event) {
+    handleKeyboardEvents (event,playerDirection,playerX, playerY) {
         const keyupPressed = event.key;
         switch(keyupPressed) {
-        case 'ArrowLeft' : app.goToLeft();
+        case 'ArrowLeft' : base.goToLeft(playerDirection,playerX);
             break;
-        case 'ArrowRight' : app.goToRight();
+        case 'ArrowRight' : base.goToRight(playerDirection,playerX);
             break;
-        case 'ArrowUp' : app.goToUp();
+        case 'ArrowUp' : base.goToUp(playerDirection,playerY);
             break;
-        case 'ArrowDown' : app.goToDown();
+        case 'ArrowDown' : base.goToDown(playerDirection,playerY);
+        debugger
             break;
         }
     },
