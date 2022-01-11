@@ -192,7 +192,10 @@ const base = {
         for (let indexArrayStones=0;indexArrayStones<base.stones.length;indexArrayStones++) {
             if (base.player.x === (base.stones[indexArrayStones].x)  && (base.player.y === base.stones[indexArrayStones].y)) {
                 base.player.score -= 1;
+                [base.player.nextLvl][0];
+                debugger;
                 return base.player[XorY] = valueBeforeMove;
+                debugger;
             }
         }
 
@@ -273,7 +276,10 @@ const base = {
         base.replay();
     },
     handleOnClickNextButton () {
-        document.location = base.player.nextLvl;
+        
+        
+        base.player.nextLvl.init();
+        debugger;
     },
     handleSubmitHeroName (event) {
         event.preventDefault();

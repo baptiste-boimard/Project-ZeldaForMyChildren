@@ -1,47 +1,4 @@
 /* eslint-disable no-undef */
-const lvl1_1 = {
-
-    //je définis mes variables
-    //position du joueur
-    player : {
-        x : 0,
-        y : 0,
-        direction : 'right',
-        score : 0,
-        nextLvl : 'lvl1_2',
-    },
-    //la position de la cible
-    targetCell : {
-        x : 7,
-        y : 4,
-    },
-
-    stones : [
-        {x : 3,y : 2},
-        {x : 2,y : 0},
-        {x : 5,y : 2},
-        {x : 2,y : 3},
-        {x : 1,y : 1},
-        {x : 1,y : 2},
-        {x : 5,y : 3},
-        {x : 5,y : 4},
-        {x : 7,y : 3},
-        {x : 6,y : 1},
-    ],
-    
-    board : {
-        x : 8,
-        y : 5,
-    },
-
-    init () {
-        base.valueReturnfromLvl(lvl1_1.board.x,lvl1_1.board.y,lvl1_1.player.x,lvl1_1.player.y, lvl1_1.targetCell.x,
-            lvl1_1.targetCell.y,lvl1_1.player.direction,lvl1_1.stones, lvl1_1.player.nextLvl);
-        base.init();
-    },
-};
-
-/* eslint-disable no-undef */
 const lvl1_2 = {
 
     //je définis mes variables
@@ -93,4 +50,4 @@ const lvl1_2 = {
     },
 };
 
-document.addEventListener('DOMContentLoaded', lvl1_1.init);
+document.addEventListener('DOMContentLoaded', lvl1_2.init);
