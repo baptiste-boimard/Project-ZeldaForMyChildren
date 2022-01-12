@@ -75,7 +75,7 @@ const base = {
             for(let indexX=0;indexX<boardX;indexX++ ) {
                 const boardCellElm = document.createElement('div');
                 boardCellElm.classList.add('cell');
-                
+  
                 if (indexX === (base.targetCell.x)  && (indexY === base.targetCell.y)) {
                     boardCellElm.classList.add('coffer');
                 }
@@ -84,10 +84,13 @@ const base = {
                     playerElm.classList.add('player',`player__direction--${base.player.direction}`);                    
                     boardCellElm.append(playerElm);                 
                 }
-                
-                base.drawStone (indexX,indexY,boardCellElm);
 
-                boardRowElm.append(boardCellElm);
+                //Ajout des coordonées des cases
+                boardCellElm.classList.add('coord');
+                boardCellElm.textContent = `${indexX} , ${indexY}`;
+ 
+                base.drawStone (indexX,indexY,boardCellElm);
+                boardRowElm.append(boardCellElm);   
             }
             base.boardElm.append(boardRowElm);
         }
@@ -134,68 +137,16 @@ const base = {
         base.redrawBoard ();
 
     },
-    goToRight () {
-        
-        if (base.gameOver === true)
-            return;
-
-        base.player.direction = 'right';
-        let valueBeforeMove = base.player.x;
-        let XorY = 'x';
-        base.player.x += 1;
-        if (base.player.x > base.board.x -1) {
-            base.player.x = base.board.x -1;
-            return base.player.x = valueBeforeMove;
-        }
-        base.checkStones(XorY,valueBeforeMove);
-        base.player.score += 1;
-        base.redrawBoard ();
-
-    },
-    goToUp () {
-        
-        if (base.gameOver === true)
-            return;
-
-        base.player.direction = 'up';
-        let valueBeforeMove = base.player.y;
-        let XorY = 'y';
-        base.player.y -= 1;
-        if (base.player.y < 0) {
-            base.player.y = 0;
-            return base.player.y = valueBeforeMove;
-        }
-        base.checkStones(XorY,valueBeforeMove);
-        base.player.score += 1;
-        base.redrawBoard ();
-
-    },
-    goToDown () {
-        
-        if (base.gameOver === true)
-            return;
-
-        base.player.direction = 'down';
-        let valueBeforeMove = base.player.y;
-        let XorY = 'y';
-        base.player.y += 1;
-        if (base.player.y > base.board.y-1) {
-            return base.player.y = valueBeforeMove;
-        }
-        base.checkStones(XorY,valueBeforeMove);
-        base.player.score += 1;
-        base.redrawBoard ();
-
-    },
+    
     checkStones (XorY, valueBeforeMove) {
 
         for (let indexArrayStones=0;indexArrayStones<base.stones.length;indexArrayStones++) {
             if (base.player.x === (base.stones[indexArrayStones].x)  && (base.player.y === base.stones[indexArrayStones].y)) {
                 base.player.score -= 1;
                 [base.player.nextLvl][0];
-                debugger;
+        
                 return base.player[XorY] = valueBeforeMove;
-                debugger;
+        
             }
         }
 
@@ -272,14 +223,67 @@ const base = {
             break;
         }
     },
+    goToRight () {
+        
+        if (base.gameOver === true)
+            return;
+
+        base.player.direction = 'right';
+        let valueBeforeMove = base.player.x;
+        let XorY = 'x';
+        base.player.x += 1;
+        if (base.player.x > base.board.x -1) {
+            base.player.x = base.board.x -1;
+            return base.player.x = valueBeforeMove;
+        }
+        base.checkStones(XorY,valueBeforeMove);
+        base.player.score += 1;
+        base.redrawBoard ();
+
+    },
+    goToUp () {
+        
+        if (base.gameOver === true)
+            return;
+
+        base.player.direction = 'up';
+        let valueBeforeMove = base.player.y;
+        let XorY = 'y';
+        base.player.y -= 1;
+        if (base.player.y < 0) {
+            base.player.y = 0;
+            return base.player.y = valueBeforeMove;
+        }
+        base.checkStones(XorY,valueBeforeMove);
+        base.player.score += 1;
+        base.redrawBoard ();
+
+    },
+    goToDown () {
+        
+        if (base.gameOver === true)
+            return;
+
+        base.player.direction = 'down';
+        let valueBeforeMove = base.player.y;
+        let XorY = 'y';
+        base.player.y += 1;
+        if (base.player.y > base.board.y-1) {
+            return base.player.y = valueBeforeMove;
+        }
+        base.checkStones(XorY,valueBeforeMove);
+        base.player.score += 1;
+        base.redrawBoard ();
+
+    },
     handleOnClickReplayButton () {
         base.replay();
     },
     handleOnClickNextButton () {
-        
-        
-        base.player.nextLvl.init();
-        debugger;
+        base.gameOver = false;
+        base.clearBoard();
+        base.player.nextLvl();
+ 
     },
     handleSubmitHeroName (event) {
         event.preventDefault();
