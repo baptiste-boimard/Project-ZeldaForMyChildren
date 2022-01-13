@@ -22,6 +22,7 @@ const base = {
     },
     targetCell : {x : 0,y :0,},
     stones : [],
+    trees : [],
     board : {x :0,y :0},
 
     boardElm : document.querySelector('#board'),
@@ -39,9 +40,10 @@ const base = {
      * @property {number} targetCellY- Coordonée Y du coffre
      * @property {string} playerDirection- Orientation de départ du perso
      * @property {array} stonesArray - Liste des coordonées des stones
+     *  @property {array} treesArray - Liste des coordonées des trees
      * @property {string} nextLvl - nom de la page html du prochain level
      */
-    valueReturnfromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,nextLvl) {
+    valueReturnfromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,treesArray,nextLvl) {
         base.board.x = base.initialValueFromLvl.boardX = boardX,
         base.board.y = base.initialValueFromLvl.boardY = boardY,
         base.player.x = base.initialValueFromLvl.playerX = playerX;
@@ -50,6 +52,7 @@ const base = {
         base.targetCell.y = base.initialValueFromLvl.botargetCellY = targetCellY;
         base.player.direction = base.initialValueFromLvl.playerDirection = playerDirection;
         base.stones = base.initialValueFromLvl.stonesArray = stonesArray;
+        base.trees = base.initialValueFromLvl.treesArray = treesArray;
         base.player.nextLvl = base.initialValueFromLvl.nextLvl = nextLvl;
         
     },
@@ -62,6 +65,7 @@ const base = {
         base.targetCell.y = base.initialValueFromLvl.botargetCellY;
         base.player.direction = base.initialValueFromLvl.playerDirection;
         base.stones = base.initialValueFromLvl.stonesArray;
+        base.trees = base.initialValueFromLvl.treesArray;
         base.player.nextLvl = base.initialValueFromLvl.nextLvl;
         base.player.score = 0;
         base.gameOver = false;
@@ -86,10 +90,11 @@ const base = {
                 }
 
                 //Ajout des coordonées des cases
-                boardCellElm.classList.add('coord');
-                boardCellElm.textContent = `${indexX} , ${indexY}`;
+                // boardCellElm.classList.add('coord');
+                // boardCellElm.textContent = `${indexX} , ${indexY}`;
  
                 base.drawStone (indexX,indexY,boardCellElm);
+                base.drawTree (indexX,indexY,boardCellElm);
                 boardRowElm.append(boardCellElm);   
             }
             base.boardElm.append(boardRowElm);
@@ -99,11 +104,20 @@ const base = {
     },
 
     drawStone (indexX, indexY, boardCellElm) {
-        for (let indexArrayStones=0;indexArrayStones<base.stones.length;indexArrayStones++) {
-            if (indexX === (base.stones[indexArrayStones].x)  && (indexY === base.stones[indexArrayStones].y)) {
+        for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+            if (indexX === (base.stones[indexArray].x)  && (indexY === base.stones[indexArray].y)) {
                 const stoneElm = document.createElement('div');
                 stoneElm.classList.add('stone');
                 boardCellElm.append(stoneElm);
+            }
+        }
+    },
+    drawTree (indexX, indexY, boardCellElm) {
+        for (let indexArray=0;indexArray<base.trees.length;indexArray++) {
+            if (indexX === (base.trees[indexArray].x)  && (indexY === base.trees[indexArray].y)) {
+                const treeElm = document.createElement('div');
+                treeElm.classList.add('tree');
+                boardCellElm.append(treeElm);
             }
         }
     },
@@ -119,31 +133,27 @@ const base = {
         base.clearBoard();
         base.init();
     },
-    goToLeft () {
-        
-        if (base.gameOver === true)
-            return;
-
-        base.player.direction = 'left';
-        let valueBeforeMove = base.player.x;
-        let XorY = 'x';
-        base.player.x -= 1;
-        if (base.player.x < 0) {
-            base.player.x = 0;
-            return base.player.x = valueBeforeMove;
-        }
-        base.checkStones(XorY,valueBeforeMove);
-        base.player.score += 1;
-        base.redrawBoard ();
-
-    },
+    
     
     checkStones (XorY, valueBeforeMove) {
 
-        for (let indexArrayStones=0;indexArrayStones<base.stones.length;indexArrayStones++) {
-            if (base.player.x === (base.stones[indexArrayStones].x)  && (base.player.y === base.stones[indexArrayStones].y)) {
+        for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+            if (base.player.x === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
                 base.player.score -= 1;
-                [base.player.nextLvl][0];
+                // [base.player.nextLvl][0];
+        
+                return base.player[XorY] = valueBeforeMove;
+        
+            }
+        }
+
+    },
+    checkTrees (XorY, valueBeforeMove) {
+
+        for (let indexArray=0;indexArray<base.trees.length;indexArray++) {
+            if (base.player.x === (base.trees[indexArray].x)  && (base.player.y === base.trees[indexArray].y)) {
+                base.player.score -= 1;
+                // [base.player.nextLvl][0];
         
                 return base.player[XorY] = valueBeforeMove;
         
@@ -223,6 +233,25 @@ const base = {
             break;
         }
     },
+    goToLeft () {
+        
+        if (base.gameOver === true)
+            return;
+
+        base.player.direction = 'left';
+        let valueBeforeMove = base.player.x;
+        let XorY = 'x';
+        base.player.x -= 1;
+        if (base.player.x < 0) {
+            base.player.x = 0;
+            return base.player.x = valueBeforeMove;
+        }
+        base.checkStones(XorY,valueBeforeMove);
+        base.checkTrees(XorY,valueBeforeMove);
+        base.player.score += 1;
+        base.redrawBoard ();
+
+    },
     goToRight () {
         
         if (base.gameOver === true)
@@ -237,6 +266,7 @@ const base = {
             return base.player.x = valueBeforeMove;
         }
         base.checkStones(XorY,valueBeforeMove);
+        base.checkTrees(XorY,valueBeforeMove);
         base.player.score += 1;
         base.redrawBoard ();
 
@@ -255,6 +285,7 @@ const base = {
             return base.player.y = valueBeforeMove;
         }
         base.checkStones(XorY,valueBeforeMove);
+        base.checkTrees(XorY,valueBeforeMove);
         base.player.score += 1;
         base.redrawBoard ();
 
@@ -272,6 +303,7 @@ const base = {
             return base.player.y = valueBeforeMove;
         }
         base.checkStones(XorY,valueBeforeMove);
+        base.checkTrees(XorY,valueBeforeMove);
         base.player.score += 1;
         base.redrawBoard ();
 

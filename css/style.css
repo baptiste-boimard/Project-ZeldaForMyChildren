@@ -161,6 +161,14 @@ margin-left: 5px;
     margin :0px;
 }
 
+.tree{
+    width: 70px;
+    height: 70px;
+    background-image: url(../img/treeOnGrass.png);
+    transform: scale(1);
+    background-size: cover;
+    margin :0px;
+}
 .coord {
     font-size: 1em;
     font-weight: bold;
