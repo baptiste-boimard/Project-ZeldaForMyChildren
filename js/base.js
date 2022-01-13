@@ -312,6 +312,7 @@ const base = {
         base.replay();
     },
     handleOnClickNextButton () {
+        base.player.score = 0;
         base.gameOver = false;
         base.clearBoard();
         base.player.nextLvl();
