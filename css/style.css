@@ -57,6 +57,7 @@ margin-left: 5px;
     background-image: url(../img/sprite.png);
     transform: scale(1.5);
     margin: 20px;
+    z-index: 2;
 }
 
 .board {
@@ -85,10 +86,6 @@ margin-left: 5px;
 
 .coffer {
     background-image: url(../img/cofferOnGrass.png);
-    background-size: cover;
-}
-.opencoffer {
-    background-image: url(../img/openCofferOnGrass.png);
     background-size: cover;
 }
 .player__direction--up {
@@ -131,7 +128,7 @@ margin-left: 5px;
 .winDivLeftButtonReplay {
     padding: 8px;
 }
-.winDivLeftButtonNext, .winDivLeftButtonReplay {
+.winDivLeftButtonNext, .winDivLeftButtonReplay, .winDivLeftButtonOK {
     background-color: #444941;
     color:#D5EEBB ;
     padding: 0.3em;
@@ -155,19 +152,22 @@ margin-left: 5px;
 .stone {
     width: 70px;
     height: 70px;
-    background-image: url(../img/bigStoneZelda.png);
-    transform: scale(0.8);
+    background-image: url(../img/stoneOnGrass.png);
     background-size: cover;
-    margin :0px;
 }
 
-.tree{
+.tree {
     width: 70px;
     height: 70px;
     background-image: url(../img/treeOnGrass.png);
-    transform: scale(1);
     background-size: cover;
     margin :0px;
+}
+.littleCoffer {
+    width: 70px;
+    height: 70px;
+    background-image: url(../img/littleCofferOnGrass.png);
+    background-size: cover;
 }
 .coord {
     font-size: 1em;
