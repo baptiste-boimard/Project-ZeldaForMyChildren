@@ -321,22 +321,60 @@ const base = {
     spaceKey () {
         if (base.player.gantlet === true) {
             switch (base.player.direction) {
-                case 'right' : for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
-                                    if ((base.player.x +1) === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
-                                        
-                                    
-                                
-                                        return;
-                                
-                                    }
-                    break;
-                case 'left' :
-                    break;
-                case 'up' :
-                    break;
-                case 'down' :
-                    break;
-            };
+            case 'right' : {
+                for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+               
+                    if ((base.player.x +1) === (base.stones[indexArray].x) && (base.player.y === base.stones[indexArray].y)) {
+           
+                        base.stones = base.stones.filter( (stone) => {
+                            return (base.player.x +1) === (stone[indexArray].x) && (base.player.y === stone[indexArray].y);
+                        });
+              
+                       
+        
+                        base.redrawBoard ();
+                
+                    }
+                }
+            }
+                break;
+            case 'left' : {
+                for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+                    if ((base.player.x -1) === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
+                        
+                        base.stones = base.stones.splice(indexArray+1,base.stones.length);
+                
+                        base.redrawBoard ();
+                
+                    }
+                }
+            }
+                break;
+            case 'up' : {
+                for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+                    if ((base.player.x) === (base.stones[indexArray].x)  && ((base.player.y-1) === base.stones[indexArray].y)) {
+                        
+                        base.stones = base.stones.splice(indexArray,1);
+    
+                        base.redrawBoard ();
+                
+                    }
+                }
+            }
+                break;
+            case 'down' : {
+                for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+                    if ((base.player.x +1) === (base.stones[indexArray].x)  && ((base.player.y+1) === base.stones[indexArray].y)) {
+                        
+                        base.stones = base.stones.splice(indexArray,1);
+                
+                        base.redrawBoard ();
+                
+                    };
+                }
+            }
+                break;
+            }
         }
     },
     checkStones (XorY, valueBeforeMove) {
