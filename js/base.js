@@ -1,19 +1,5 @@
 const base = {
 
-    initialValueFromLvl :  {
-        boardX : 0,
-        boardY : 0,
-        playerX : 0,
-        playerY : 0,
-        targetCellX : 0,
-        targetCellY : 0,
-        littleCoffer : [],
-        playerDirection : '',
-        stonesArray : [],
-        treesArray : [],
-        nextLvl : '',
-    },
-
     player : {
         x : 0,
         y : 0,
@@ -21,11 +7,13 @@ const base = {
         score : 0,
         name :'Link',
         nextLvl : '',
+        currentLvl : '',
         gantlet : false,
     },
     targetCell : {x : 0,y :0,},
     littleCoffer : [],
     stones : [],
+    stonesDestroyed : [],
     trees : [],
     board : {x :0,y :0},
 
@@ -44,35 +32,24 @@ const base = {
      * @property {number} targetCellY- Coordonée Y du coffre
      * @property {string} playerDirection- Orientation de départ du perso
      * @property {array} stonesArray - Liste des coordonées des stones
-     *  @property {array} treesArray - Liste des coordonées des trees
-     * @property {string} nextLvl - nom de la page html du prochain level
+     * @property {array} treesArray - Liste des coordonées des trees
+     * @property {array} littleCoffer - Liste des coordonées des LittleCoffer
+     * @property {function} nextLvl - nom de la fonction du prochain level
+     * @property {function} currentLvl - nom de la fonction du curent level
      */
-    valueReturnfromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,treesArray,littleCofferArray, nextLvl) {
-        base.board.x = base.initialValueFromLvl.boardX = boardX,
-        base.board.y = base.initialValueFromLvl.boardY = boardY,
-        base.player.x = base.initialValueFromLvl.playerX = playerX;
-        base.player.y = base.initialValueFromLvl.playerY = playerY;
-        base.targetCell.x = base.initialValueFromLvl.targetCellX = targetCellX;
-        base.targetCell.y = base.initialValueFromLvl.botargetCellY = targetCellY;
-        base.player.direction = base.initialValueFromLvl.playerDirection = playerDirection;
-        base.stones = base.initialValueFromLvl.stonesArray = stonesArray;
-        base.trees = base.initialValueFromLvl.treesArray = treesArray;
-        base.littleCoffer = base.initialValueFromLvl.littleCofferArray = littleCofferArray;
-        base.player.nextLvl = base.initialValueFromLvl.nextLvl = nextLvl;
-        
-    },
-    returnInitialeValueFromLvl () {
-        base.board.x = base.initialValueFromLvl.boardX;
-        base.board.y = base.initialValueFromLvl.boardY;
-        base.player.x = base.initialValueFromLvl.playerX;
-        base.player.y = base.initialValueFromLvl.playerY;
-        base.targetCell.x = base.initialValueFromLvl.targetCellX;
-        base.targetCell.y = base.initialValueFromLvl.botargetCellY;
-        base.player.direction = base.initialValueFromLvl.playerDirection;
-        base.stones = base.initialValueFromLvl.stonesArray;
-        base.trees = base.initialValueFromLvl.treesArray;
-        base.littleCoffer = base.initialValueFromLvl.littleCofferArray;
-        base.player.nextLvl = base.initialValueFromLvl.nextLvl;
+    valueReturnfromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,treesArray,littleCofferArray, nextLvl, currentLvl) {
+        base.board.x = boardX,
+        base.board.y = boardY,
+        base.player.x = playerX;
+        base.player.y = playerY;
+        base.targetCell.x = targetCellX;
+        base.targetCell.y = targetCellY;
+        base.player.direction = playerDirection;
+        base.stones = stonesArray;
+        base.trees = treesArray;
+        base.littleCoffer = littleCofferArray;
+        base.player.nextLvl = nextLvl;
+        base.player.currentLvl = currentLvl;
         base.player.score = 0;
         base.gameOver = false;
         base.player.gantlet = false;
@@ -153,8 +130,12 @@ const base = {
         base.drawBoard();
     },
     replay () {
-        base.returnInitialeValueFromLvl();
+        //Clear de la fenetre        
+        const winDivElm = document.querySelector('.winDivElm');
+        winDivElm.textContent = '';
         base.clearBoard();
+        //retour des valeurs des stones avec celles détruites
+        base.stones = base.stones.concat(base.stonesDestroyed);
         base.init();
     },
     isGameOver () {
@@ -323,15 +304,12 @@ const base = {
             switch (base.player.direction) {
             case 'right' : {
                 for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
-               
-                    if ((base.player.x +1) === (base.stones[indexArray].x) && (base.player.y === base.stones[indexArray].y)) {
-           
-                        base.stones = base.stones.filter( (stone) => {
-                            return (base.player.x +1) === (stone[indexArray].x) && (base.player.y === stone[indexArray].y);
-                        });
-              
-                       
-        
+                    if ((base.player.x+1) === (base.stones[indexArray].x)  && ((base.player.y) === base.stones[indexArray].y)) {
+                        
+                        const stoneDestroyed = base.stones.splice(indexArray,1);  
+                        
+                        base.stonesDestroyed = base.stonesDestroyed.concat(stoneDestroyed);
+                        
                         base.redrawBoard ();
                 
                     }
@@ -340,10 +318,12 @@ const base = {
                 break;
             case 'left' : {
                 for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
-                    if ((base.player.x -1) === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
+                    if ((base.player.x-1) === (base.stones[indexArray].x)  && ((base.player.y) === base.stones[indexArray].y)) {
                         
-                        base.stones = base.stones.splice(indexArray+1,base.stones.length);
-                
+                        const stoneDestroyed = base.stones.splice(indexArray,1);  
+                        
+                        base.stonesDestroyed = base.stonesDestroyed.concat(stoneDestroyed);
+                        
                         base.redrawBoard ();
                 
                     }
@@ -354,10 +334,12 @@ const base = {
                 for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
                     if ((base.player.x) === (base.stones[indexArray].x)  && ((base.player.y-1) === base.stones[indexArray].y)) {
                         
-                        base.stones = base.stones.splice(indexArray,1);
-    
+                        const stoneDestroyed = base.stones.splice(indexArray,1);  
+                        
+                        base.stonesDestroyed = base.stonesDestroyed.concat(stoneDestroyed);
+
                         base.redrawBoard ();
-                
+
                     }
                 }
             }
@@ -366,11 +348,13 @@ const base = {
                 for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
                     if ((base.player.x +1) === (base.stones[indexArray].x)  && ((base.player.y+1) === base.stones[indexArray].y)) {
                         
-                        base.stones = base.stones.splice(indexArray,1);
-                
+                        const stoneDestroyed = base.stones.splice(indexArray,1);  
+                        
+                        base.stonesDestroyed = base.stonesDestroyed.concat(stoneDestroyed);
+                        
                         base.redrawBoard ();
                 
-                    };
+                    }
                 }
             }
                 break;
@@ -440,6 +424,7 @@ const base = {
     handleOnClickNextButton () {
         base.player.score = 0;
         base.gameOver = false;
+        base.gantlet = false;
         base.clearBoard();
         base.player.nextLvl();
     },

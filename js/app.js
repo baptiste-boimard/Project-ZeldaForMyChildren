@@ -113,9 +113,8 @@ const lvl1_3 = {
         y : 0,
         direction : 'right',
         score : 0,
-        nextLvl : function() { 
-            lvl1_4.init();
-        }
+        nextLvl : () => {lvl1_4.init();},
+        currentLvl : () => {lvl1_3.init();},
     },
     //la position de la cible
     targetCell : {
@@ -129,7 +128,7 @@ const lvl1_3 = {
 
 
     stones : [
-        {x : 6,y : 6},{x : 3,y : 2},{x : 20,y : 20},
+        {x : 6,y : 6},{x : 3,y : 2},
     ],
 
     trees : [
@@ -149,9 +148,11 @@ const lvl1_3 = {
 
     init () {
         base.valueReturnfromLvl(lvl1_3.board.x,lvl1_3.board.y,lvl1_3.player.x,lvl1_3.player.y, lvl1_3.targetCell.x,
-            lvl1_3.targetCell.y,lvl1_3.player.direction,lvl1_3.stones,lvl1_3.trees,lvl1_3.littleCoffer, lvl1_3.player.nextLvl);
+            lvl1_3.targetCell.y,lvl1_3.player.direction, lvl1_3.stones,lvl1_3.trees,lvl1_3.littleCoffer, lvl1_3.player.nextLvl, lvl1_3.player.currentLvl);
+            
         base.init();
     },
 };
 
 document.addEventListener('DOMContentLoaded', lvl1_3.init());
+
