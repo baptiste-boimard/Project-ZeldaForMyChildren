@@ -130,12 +130,8 @@ const base = {
         base.drawBoard();
     },
     replay () {
-        //Clear de la fenetre        
-        const winDivElm = document.querySelector('.winDivElm');
-        winDivElm.textContent = '';
-        base.clearBoard();
-        //retour des valeurs des stones avec celles détruites
         base.stones = base.stones.concat(base.stonesDestroyed);
+        base.clearBoard();
         base.init();
     },
     isGameOver () {
