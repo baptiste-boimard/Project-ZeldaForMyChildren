@@ -37,7 +37,7 @@ const base = {
      * @property {function} nextLvl - nom de la fonction du prochain level
      * @property {function} currentLvl - nom de la fonction du curent level
      */
-    valueReturnfromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,treesArray,littleCofferArray, nextLvl, currentLvl) {
+    valueFromLvl (boardX , boardY, playerX, playerY, targetCellX, targetCellY, playerDirection, stonesArray,treesArray,littleCofferArray, nextLvl, currentLvl) {
         base.board.x = boardX,
         base.board.y = boardY,
         base.player.x = playerX;
@@ -120,7 +120,33 @@ const base = {
             }
         }
     },
-
+    checkStones (XorY, valueBeforeMove) {
+        for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
+            if (base.player.x === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
+                base.player.score -= 1;
+                return base.player[XorY] = valueBeforeMove;       
+            }
+        }
+    },
+    checkTrees (XorY, valueBeforeMove) {
+        for (let indexArray=0;indexArray<base.trees.length;indexArray++) {
+            if (base.player.x === (base.trees[indexArray].x)  && (base.player.y === base.trees[indexArray].y)) {
+                base.player.score -= 1;                 
+                return base.player[XorY] = valueBeforeMove;
+            }
+        }
+    },
+    checkLittleCoffer () {
+        if (base.player.gantlet === false) {
+            for (let indexArray=0;indexArray<base.littleCoffer.length;indexArray++) {
+                if (base.player.x === (base.littleCoffer[indexArray].x) && (base.player.y === base.littleCoffer[indexArray].y)) {
+                    base.player.gantlet = true;
+                    setTimeout(base.isLittleCoffer(), 200);
+                    return;
+                }
+            }
+        }
+    },
     clearBoard () {
         base.boardElm.textContent = '';
     },
@@ -150,7 +176,7 @@ const base = {
     },
     isWin () {
         
-        base.createWinningBox();
+        base.boxWinning();
 
         const winDivLeftH1 = document.querySelector('.winDivLeftH1');
         winDivLeftH1.textContent = `Bravo ${base.player.name} tu as gagné !!`;
@@ -161,9 +187,24 @@ const base = {
         const winDivLeftButtonReplay = document.querySelector ('.winDivLeftButtonReplay');
         winDivLeftButtonReplay.textContent ='Rejouer ?';
     },
+    boxWinning () {
+
+        base.creatingBoxDialog();
+
+        const winDivLeftButtonReplay = document.createElement('button');
+        winDivLeftButtonReplay.classList.add('winDivLeftButtonReplay');
+        const winDivLeftButtonNext = document.createElement('button');
+        winDivLeftButtonNext.classList.add('winDivLeftButtonNext');
+        const winDivLeftDivButton = document.querySelector('.winDivLeftDivButton');
+        winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
+        const winDivRightElm = document.querySelector('.winDivRightElm');
+        winDivRightElm.style.backgroundImage ='url(../img/linkTresor.png)',
+        winDivLeftButtonReplay.addEventListener('click', base.handleOnClickReplayButton);
+        winDivLeftButtonNext.addEventListener('click', base.handleOnClickNextButton);
+    },
     isLittleCoffer () {
 
-        base.createBox();
+        base.boxLittleCoffer ();
 
         const winDivLeftH1 = document.querySelector('.winDivLeftH1');
         winDivLeftH1.textContent = `Bravo ${base.player.name} tu as trouvé le gant briseur de rocher !!`;
@@ -173,8 +214,19 @@ const base = {
         winDivLeftButtonNext.textContent ='Continuer';
 
     },
+    boxLittleCoffer () {
 
-    createBox () {
+        base.creatingBoxDialog();
+
+        const winDivLeftButtonOK= document.createElement('button');
+        winDivLeftButtonOK.classList.add('winDivLeftButtonOK');
+        const winDivLeftDivButton = document.querySelector('.winDivLeftDivButton');
+        winDivLeftDivButton.append(winDivLeftButtonOK);
+        const winDivRightElm = document.querySelector('.winDivRightElm');
+        winDivRightElm.style.backgroundImage ='url(../img/gantlet.png)',
+        winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
+    },
+    creatingBoxDialog () {
         const winDivElm = document.createElement('div');
         winDivElm.classList.add('winDivElm');
         winDivElm.style.display ='flex';
@@ -186,54 +238,13 @@ const base = {
         winDivLeftP.classList.add('winDivLeftP');
         const winDivLeftDivButton = document.createElement('div');
         winDivLeftDivButton.classList.add('winDivLeftDivButton');
-        const winDivLeftButtonOK= document.createElement('button');
-        winDivLeftButtonOK.classList.add('winDivLeftButtonOK');
         const winDivRightElm = document.createElement('div');
         winDivRightElm.classList.add('winDivRightElm');
-            
-        winDivElm.append(winDivLeftElm, winDivRightElm);
-        
-
-        winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
-        winDivLeftDivButton.append(winDivLeftButtonOK);
-
-        base.boardElm.append(winDivElm);
-
-        winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
-
-    },
-
-    createWinningBox () {
-
-     
-        const winDivElm = document.createElement('div');
-        winDivElm.classList.add('winDivElm');
-        winDivElm.style.display = 'flex';
-        const winDivLeftElm = document.createElement('div');
-        winDivLeftElm.classList.add('winDivLeftElm');
-        const winDivLeftH1 = document.createElement('h1');
-        winDivLeftH1.classList.add('winDivLeftH1');
-        const winDivLeftP = document.createElement('p');
-        winDivLeftP.classList.add('winDivLeftP');
-        const winDivLeftDivButton = document.createElement('div');
-        winDivLeftDivButton.classList.add('winDivLeftDivButton');
-        const winDivLeftButtonReplay = document.createElement('button');
-        winDivLeftButtonReplay.classList.add('winDivLeftButtonReplay');
-        const winDivLeftButtonNext = document.createElement('button');
-        winDivLeftButtonNext.classList.add('winDivLeftButtonNext');
-        const winDivRightElm = document.createElement('div');
-        winDivRightElm.classList.add('winDivRightElm');
-            
         winDivElm.append(winDivLeftElm, winDivRightElm);
         winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
-        winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
-
         base.boardElm.append(winDivElm);
 
-        winDivLeftButtonReplay.addEventListener('click', base.handleOnClickReplayButton);
-        winDivLeftButtonNext.addEventListener('click', base.handleOnClickNextButton);
-    },
-    
+    },   
     goToLeft () {
         
         if (base.gameOver === true)
@@ -355,7 +366,7 @@ const base = {
                 break;
             case 'down' : {
                 for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
-                    if ((base.player.x +1) === (base.stones[indexArray].x)  && ((base.player.y+1) === base.stones[indexArray].y)) {
+                    if ((base.player.x) === (base.stones[indexArray].x)  && ((base.player.y+1) === base.stones[indexArray].y)) {
                         
                         const stoneDestroyed = base.stones.splice(indexArray,1);  
                         
@@ -367,41 +378,6 @@ const base = {
                 }
             }
                 break;
-            }
-        }
-    },
-    checkStones (XorY, valueBeforeMove) {
-
-        for (let indexArray=0;indexArray<base.stones.length;indexArray++) {
-            if (base.player.x === (base.stones[indexArray].x)  && (base.player.y === base.stones[indexArray].y)) {
-                base.player.score -= 1;
-               
-        
-                return base.player[XorY] = valueBeforeMove;
-        
-            }
-        }
-
-    },
-    checkTrees (XorY, valueBeforeMove) {
-
-        for (let indexArray=0;indexArray<base.trees.length;indexArray++) {
-            if (base.player.x === (base.trees[indexArray].x)  && (base.player.y === base.trees[indexArray].y)) {
-                base.player.score -= 1;
-                        
-                return base.player[XorY] = valueBeforeMove;
-        
-            }
-        }
-    },
-    checkLittleCoffer () {
-        if (base.player.gantlet === false) {
-            for (let indexArray=0;indexArray<base.littleCoffer.length;indexArray++) {
-                if (base.player.x === (base.littleCoffer[indexArray].x) && (base.player.y === base.littleCoffer[indexArray].y)) {
-                    base.player.gantlet = true;
-                    setTimeout(base.isLittleCoffer(), 200);
-                    return;
-                }
             }
         }
     },
