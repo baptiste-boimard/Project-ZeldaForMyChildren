@@ -55,8 +55,7 @@ const base = {
         base.player.gantlet = false;
     },
     drawBoard (boardX = base.board.x, boardY = base.board.y) {
-
-
+        
         for (let indexY=0; indexY < boardY ; indexY++) {
             const boardRowElm = document.createElement('div');
             boardRowElm.classList.add('row');
@@ -114,9 +113,9 @@ const base = {
         if (base.player.gantlet === false) {
             for (let indexArray=0;indexArray<base.littleCoffer.length;indexArray++) {
                 if (indexX === (base.littleCoffer[indexArray].x)  && (indexY === base.littleCoffer[indexArray].y)) {
-                    const treeElm = document.createElement('div');
-                    treeElm.classList.add('littleCoffer');
-                    boardCellElm.append(treeElm);
+                    const littleCofferElm = document.createElement('div');
+                    littleCofferElm.classList.add('littleCoffer');
+                    boardCellElm.append(littleCofferElm);
                 }
             }
         }
@@ -131,8 +130,16 @@ const base = {
     },
     replay () {
         base.stones = base.stones.concat(base.stonesDestroyed);
+        base.stonesDestroyed = [];
+        base.player.x = 0;
+        base.player.y = 0;
+        base.player.direction = 'right';
+        base.player.score = 0;
+        base.player.gantlet = false;
+        base.gameOver = false;
         base.clearBoard();
         base.init();
+
     },
     isGameOver () {
         if (base.player.x === base.targetCell.x && base.player.y === base.targetCell.y) {
@@ -170,6 +177,7 @@ const base = {
     createBox () {
         const winDivElm = document.createElement('div');
         winDivElm.classList.add('winDivElm');
+        winDivElm.style.display ='flex';
         const winDivLeftElm = document.createElement('div');
         winDivLeftElm.classList.add('winDivLeftElm');
         const winDivLeftH1 = document.createElement('h1');
@@ -184,6 +192,8 @@ const base = {
         winDivRightElm.classList.add('winDivRightElm');
             
         winDivElm.append(winDivLeftElm, winDivRightElm);
+        
+
         winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
         winDivLeftDivButton.append(winDivLeftButtonOK);
 
@@ -194,8 +204,11 @@ const base = {
     },
 
     createWinningBox () {
+
+     
         const winDivElm = document.createElement('div');
         winDivElm.classList.add('winDivElm');
+        winDivElm.style.display = 'flex';
         const winDivLeftElm = document.createElement('div');
         winDivLeftElm.classList.add('winDivLeftElm');
         const winDivLeftH1 = document.createElement('h1');
@@ -401,6 +414,7 @@ const base = {
     },
     handleKeyboardEvents (event) {
         const keyupPressed = event.key;
+        console.log(keyupPressed);
         switch(keyupPressed) {
         case 'ArrowLeft' : base.goToLeft();
             break;
@@ -438,7 +452,7 @@ const base = {
         inputNameElm.style.placeholder = inputNameElmValue;
         base.player.name = inputNameElmValue;
     },
-    init () {
+    init () {    
         base.listenKeyboardEvents();
         base.listenEventInputNameElm();
         base.drawBoard();
