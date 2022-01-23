@@ -40,6 +40,7 @@ const lvl1_1 = {
     },
 
     init () {
+        base.welcomeHero();
         base.valueFromLvl(lvl1_1.board.x,lvl1_1.board.y,lvl1_1.player.x,lvl1_1.player.y, lvl1_1.targetCell.x,
             lvl1_1.targetCell.y,lvl1_1.player.direction,lvl1_1.stones,lvl1_1.trees,lvl1_1.littleCoffer, lvl1_1.player.nextLvl,lvl1_1.player.currentLvl);
         base.init();    
@@ -158,6 +159,7 @@ const lvl1_3 = {
     },
 
     init () {
+
         base.valueFromLvl(lvl1_3.board.x,lvl1_3.board.y,lvl1_3.player.x,lvl1_3.player.y, lvl1_3.targetCell.x,
             lvl1_3.targetCell.y,lvl1_3.player.direction, lvl1_3.stones,lvl1_3.trees,lvl1_3.littleCoffer, lvl1_3.player.nextLvl, lvl1_3.player.currentLvl);
             
@@ -165,5 +167,5 @@ const lvl1_3 = {
     },
 };
 
-document.addEventListener('DOMContentLoaded', lvl1_3.init());
+document.addEventListener('DOMContentLoaded', lvl1_1.init());
 

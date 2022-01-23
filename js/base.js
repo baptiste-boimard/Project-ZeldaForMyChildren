@@ -20,7 +20,7 @@ const base = {
     boardElm : document.querySelector('#board'),
     inputSelectLvlElm : document.querySelector('#input-selectLvl'),
 
-    gameOver : false,
+    cantMove : false,
    
     /**
      * Dessine le board et rapatrie les valeurs du level
@@ -51,7 +51,7 @@ const base = {
         base.player.nextLvl = nextLvl;
         base.player.currentLvl = currentLvl;
         base.player.score = 0;
-        base.gameOver = false;
+        base.cantMove = false;
         base.player.gantlet = false;
     },
     drawBoard (boardX = base.board.x, boardY = base.board.y) {
@@ -141,6 +141,7 @@ const base = {
             for (let indexArray=0;indexArray<base.littleCoffer.length;indexArray++) {
                 if (base.player.x === (base.littleCoffer[indexArray].x) && (base.player.y === base.littleCoffer[indexArray].y)) {
                     base.player.gantlet = true;
+                    base.cantMove = true;
                     setTimeout(base.isLittleCoffer(), 200);
                     return;
                 }
@@ -162,33 +163,20 @@ const base = {
         base.player.direction = 'right';
         base.player.score = 0;
         base.player.gantlet = false;
-        base.gameOver = false;
+        base.cantMove = false;
         base.clearBoard();
         base.init();
 
     },
     isGameOver () {
         if (base.player.x === base.targetCell.x && base.player.y === base.targetCell.y) {
-            base.gameOver = true;
+            base.cantMove = true;
             setTimeout(base.isWin(), 200);
             return;
         }
     },
     isWin () {
         
-        base.boxWinning();
-
-        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
-        winDivLeftH1.textContent = `Bravo ${base.player.name} tu as gagné !!`;
-        const winDivLeftP = document.querySelector('.winDivLeftP'); 
-        winDivLeftP.textContent = `Tu as fait ${base.player.score} déplacements`;
-        const winDivLeftButtonNext = document.querySelector('.winDivLeftButtonNext');
-        winDivLeftButtonNext.textContent ='Niveau suivant =>';
-        const winDivLeftButtonReplay = document.querySelector ('.winDivLeftButtonReplay');
-        winDivLeftButtonReplay.textContent ='Rejouer ?';
-    },
-    boxWinning () {
-
         base.creatingBoxDialog();
 
         const winDivLeftButtonReplay = document.createElement('button');
@@ -199,12 +187,30 @@ const base = {
         winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
         const winDivRightElm = document.querySelector('.winDivRightElm');
         winDivRightElm.style.backgroundImage ='url(../img/linkTresor.png)',
+        winDivRightElm.style.margin ='10px -30px 0 30px',
+
         winDivLeftButtonReplay.addEventListener('click', base.handleOnClickReplayButton);
         winDivLeftButtonNext.addEventListener('click', base.handleOnClickNextButton);
+
+        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
+        winDivLeftH1.textContent = `Bravo ${base.player.name} tu as gagné !!`;
+        const winDivLeftP = document.querySelector('.winDivLeftP'); 
+        winDivLeftP.textContent = `Tu as fait ${base.player.score} déplacements`;
+        winDivLeftButtonNext.textContent ='Niveau suivant =>';
+        winDivLeftButtonReplay.textContent ='Rejouer ?';
     },
     isLittleCoffer () {
 
-        base.boxLittleCoffer ();
+        base.creatingBoxDialog();
+
+        const winDivLeftButtonOK= document.createElement('button');
+        winDivLeftButtonOK.classList.add('winDivLeftButtonOK');
+        const winDivLeftDivButton = document.querySelector('.winDivLeftDivButton');
+        winDivLeftDivButton.append(winDivLeftButtonOK);
+        const winDivRightElm = document.querySelector('.winDivRightElm');
+        winDivRightElm.style.backgroundImage ='url(../img/linkGantlet.png)',
+        winDivRightElm.style.margin ='30px 30px 0 30px',
+        winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
 
         const winDivLeftH1 = document.querySelector('.winDivLeftH1');
         winDivLeftH1.textContent = `Bravo ${base.player.name} tu as trouvé le gant briseur de rocher !!`;
@@ -214,17 +220,41 @@ const base = {
         winDivLeftButtonNext.textContent ='Continuer';
 
     },
-    boxLittleCoffer () {
+
+    welcomeHero () {
 
         base.creatingBoxDialog();
+        
+        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
+        winDivLeftH1.style.paddingLeft ='10px';
+        winDivLeftH1.textContent = 'Bienvenue cher Hero !!!! Quel est ton nom ?';
 
-        const winDivLeftButtonOK= document.createElement('button');
-        winDivLeftButtonOK.classList.add('winDivLeftButtonOK');
-        const winDivLeftDivButton = document.querySelector('.winDivLeftDivButton');
-        winDivLeftDivButton.append(winDivLeftButtonOK);
+        const winDivLeftP = document.querySelector('.winDivLeftP');
+        winDivLeftP.style.visibility = 'hidden';
+
+        const winDivLeftForm = document.createElement('form'); 
+        winDivLeftForm.classList.add('winDivLeftForm');
+        const winDivLeftElm = document.querySelector('.winDivElm');
+        winDivLeftElm.append(winDivLeftForm);
+        
+        
+        const winDivLeftFormInput = document.createElement('input');
+        winDivLeftFormInput.classList.add('winDivLeftFormInput');
+        const winDivLeftFormButton = document.createElement('button');
+        winDivLeftFormButton.classList.add('winDivLeftFormButton');
+        winDivLeftFormButton.textContent = 'Confirmer';
+       
+        winDivLeftForm.append(winDivLeftFormInput);
+        winDivLeftForm.append(winDivLeftFormButton);
+
+
+        
+
+        
         const winDivRightElm = document.querySelector('.winDivRightElm');
-        winDivRightElm.style.backgroundImage ='url(../img/gantlet.png)',
-        winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
+        winDivRightElm.style.backgroundImage ='url(../img/linkGantlet.png)';
+        winDivRightElm.style.margin ='30px 30px 0 30px';
+        // winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
     },
     creatingBoxDialog () {
         const winDivElm = document.createElement('div');
@@ -247,7 +277,7 @@ const base = {
     },   
     goToLeft () {
         
-        if (base.gameOver === true)
+        if (base.cantMove === true)
             return;
 
         base.player.direction = 'left';
@@ -266,7 +296,7 @@ const base = {
     },
     goToRight () {
         
-        if (base.gameOver === true)
+        if (base.cantMove === true)
             return;
 
         base.player.direction = 'right';
@@ -285,7 +315,7 @@ const base = {
     },
     goToUp () {
         
-        if (base.gameOver === true)
+        if (base.cantMove === true)
             return;
 
         base.player.direction = 'up';
@@ -303,7 +333,7 @@ const base = {
     },
     goToDown () {
         
-        if (base.gameOver === true)
+        if (base.cantMove === true)
             return;
 
         base.player.direction = 'down';
@@ -409,7 +439,7 @@ const base = {
     },
     handleOnClickNextButton () {
         base.player.score = 0;
-        base.gameOver = false;
+        base.cantMove = false;
         base.gantlet = false;
         base.clearBoard();
         base.player.nextLvl();
@@ -418,6 +448,7 @@ const base = {
         
         const winDivElm = document.querySelector('.winDivElm');
         winDivElm.textContent = '';
+        base.cantMove = false;
         base.redrawBoard();
 
     },

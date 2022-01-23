@@ -115,10 +115,15 @@ margin-left: 5px;
     text-align: center;
     border: 5px solid #444941;
 }
+.winDivLeftElm {
+    display: flex;
+    flex-direction: column;
+}
 .winDivLeftP {
     font-size: 1em;
     padding: 5px;
     color:#D5EEBB ;
+    margin-top: 10px;
 }
 .winDivLeftH1{
     font-size: 2em;
@@ -147,7 +152,11 @@ margin-left: 5px;
     background-repeat: no-repeat;
     background-position-x: center;
     transform: scale(1.5);
-    margin: auto;
+}
+
+.winDivLeftForm {
+    display: flex;
+    flex-direction: column;
 }
 
 .stone {
