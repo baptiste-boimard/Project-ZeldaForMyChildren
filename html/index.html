@@ -9,16 +9,9 @@
 <body class="body">
     <nav id="nav" class="nav">
         <div class="img-logo"></div>
-        <form id="form-inputName" class="form">
-            <input
-            id="input-name"
-            class="input"
-            type="text"
-            placeholder="Quel est ton nom héros ?"
-            name="heroName"
-              value=''>
-            <button id="button-inputName" class="button-form">Valider</button>
-        </form>
+        <div class="heroName-box">
+            <h2 class="heroName">Link</h2>
+        </div>
         <form id="form-inputSelectLvl" class="form form-right--margin">
             <input
             id="input-selectLvl"
@@ -29,7 +22,22 @@
         </form>
         <div class="img-logo"></div>
     </nav>
-    <div id="board" class="board"></div>
+    <div id="board" class="board">
+        <div class="dialogBox box">
+            <div class="dialogBox-text box">
+                <h2 class="h2box box"></h2>
+                <h3 class ="h3box box"></h3>
+                <form class="dialogBox-form box" action="#">
+                    <input class="inputName box" type="text" placeholder="Tape ton nom ...">
+                    <button class="dialogBox-button box" type=""></button>
+                </form>
+            </div>
+            <div class="dialogBox-img">
+                <img src="../img/linkTresor.png" alt="linkTresor">
+            </div>
+        </div>
+    </div>
+
     <script src="../js/base.js" charset="utf-8"></script>
     <script src="../js/app.js" charset="utf-8"></script>
 </body>

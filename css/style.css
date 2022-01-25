@@ -24,10 +24,12 @@ body {
     width: 260px;
     transform: scale(0.5);
 }
-.input {
-    border: none;
-    border: 2px solid #5F7A61;
-    padding: 5px;
+.heroName-box {
+    width: 100px;
+}
+.heroName-box h2 {
+    font-size: 3rem;
+    color: #444941;
 }
 .button-form {
     color: #D5EEBB;
@@ -36,6 +38,7 @@ body {
     border: 2px solid #5F7A61;
     padding: 5px;
 }
+
 .form-inputSelectLvl {
     margin-left: 4px;
 }
@@ -108,8 +111,8 @@ margin-left: 5px;
     justify-content: center;
     flex-direction: row;
     z-index: 2;
-    height: 20vh;
-    width: 500px;
+    height: 25vh;
+    width: 600px;
     background-color: #5F7A61;
     padding :10px;
     text-align: center;
@@ -130,8 +133,11 @@ margin-left: 5px;
     padding: 5px;
     color:#D5EEBB ;
 }
+.welcomeHero{
+    padding: 0 15px;
+}
 .winDivLeftButtonReplay {
-    padding: 8px;
+    padding-right: 8px;
 }
 .winDivLeftButtonNext, .winDivLeftButtonReplay, .winDivLeftButtonOK {
     background-color: #444941;
@@ -158,7 +164,49 @@ margin-left: 5px;
     display: flex;
     flex-direction: column;
 }
+.dialogBox {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 500px;
+    height: 25vh;
+    padding :10px;
+    background-color: #5F7A61;
+    border: 5px solid #444941;
+    color:#D5EEBB ;
+    text-align: center;
+    visibility: hidden;
+}
+.dialogBox-form{
+    display: flex;
+    flex-direction: column;
+}
+.dialogBox h2 {
+    font-size: 2rem;
+}
+.dialogBox h3 {
+    font-size: 1.5rem;
+}
+.dialogBox button {
+    border: none;
+    background-color:#444941 ;
+    color: #D5EEBB;
+    margin-top: 0.5rem;
+}
+.dialogBox button:hover {
+    color: #444941;
+    background-color:#D5EEBB ;
 
+
+}
+.dialogBox img {
+    transform: scale(3.2);
+}
+.box {
+    padding : 0.5rem;
+}
 .stone {
     width: 70px;
     height: 70px;

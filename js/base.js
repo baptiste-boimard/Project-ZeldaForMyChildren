@@ -187,7 +187,7 @@ const base = {
         winDivLeftDivButton.append(winDivLeftButtonReplay,winDivLeftButtonNext);
         const winDivRightElm = document.querySelector('.winDivRightElm');
         winDivRightElm.style.backgroundImage ='url(../img/linkTresor.png)',
-        winDivRightElm.style.margin ='10px -30px 0 30px',
+        winDivRightElm.style.margin ='10px -30px 0 60px',
 
         winDivLeftButtonReplay.addEventListener('click', base.handleOnClickReplayButton);
         winDivLeftButtonNext.addEventListener('click', base.handleOnClickNextButton);
@@ -209,10 +209,10 @@ const base = {
         winDivLeftDivButton.append(winDivLeftButtonOK);
         const winDivRightElm = document.querySelector('.winDivRightElm');
         winDivRightElm.style.backgroundImage ='url(../img/linkGantlet.png)',
-        winDivRightElm.style.margin ='30px 30px 0 30px',
-        winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
+        winDivRightElm.style.margin ='0px 29px 0 30px';
+        // winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
 
-        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
+        let winDivLeftH1 = document.querySelector('.winDivLeftH1');
         winDivLeftH1.textContent = `Bravo ${base.player.name} tu as trouvé le gant briseur de rocher !!`;
         const winDivLeftP = document.querySelector('.winDivLeftP'); 
         winDivLeftP.textContent = 'Appuis sur \'ESPACE\' pour pouvoir l\'utiliser devant un rocher';
@@ -223,38 +223,18 @@ const base = {
 
     welcomeHero () {
 
-        base.creatingBoxDialog();
-        
-        const winDivLeftH1 = document.querySelector('.winDivLeftH1');
-        winDivLeftH1.style.paddingLeft ='10px';
-        winDivLeftH1.textContent = 'Bienvenue cher Hero !!!! Quel est ton nom ?';
+        const dialogBox = document.querySelector('.dialogBox');
+        dialogBox.style.visibility = 'visible';
 
-        const winDivLeftP = document.querySelector('.winDivLeftP');
-        winDivLeftP.style.visibility = 'hidden';
+        const h2Box = document.querySelector('.h2box');
+        const h3Box = document.querySelector('.h3box');
+        const buttonBox = document.querySelector('.dialogBox-button');
 
-        const winDivLeftForm = document.createElement('form'); 
-        winDivLeftForm.classList.add('winDivLeftForm');
-        const winDivLeftElm = document.querySelector('.winDivElm');
-        winDivLeftElm.append(winDivLeftForm);
+        h2Box.textContent = 'Bienvenue cher hero !!';
+        h3Box.textContent = 'Quel est ton nom ?';
+        buttonBox.textContent = 'Confirmer';
         
-        
-        const winDivLeftFormInput = document.createElement('input');
-        winDivLeftFormInput.classList.add('winDivLeftFormInput');
-        const winDivLeftFormButton = document.createElement('button');
-        winDivLeftFormButton.classList.add('winDivLeftFormButton');
-        winDivLeftFormButton.textContent = 'Confirmer';
-       
-        winDivLeftForm.append(winDivLeftFormInput);
-        winDivLeftForm.append(winDivLeftFormButton);
-
-
-        
-
-        
-        const winDivRightElm = document.querySelector('.winDivRightElm');
-        winDivRightElm.style.backgroundImage ='url(../img/linkGantlet.png)';
-        winDivRightElm.style.margin ='30px 30px 0 30px';
-        // winDivLeftButtonOK.addEventListener('click', base.handleOnClickOKButton);
+        buttonBox.addEventListener('click', base.handleOnClickConfirmerButton);
     },
     creatingBoxDialog () {
         const winDivElm = document.createElement('div');
@@ -273,6 +253,22 @@ const base = {
         winDivElm.append(winDivLeftElm, winDivRightElm);
         winDivLeftElm.append(winDivLeftH1,winDivLeftP,winDivLeftDivButton);
         base.boardElm.append(winDivElm);
+
+        // const winDivLeftForm = document.createElement('form'); 
+        // winDivLeftForm.classList.add('winDivLeftForm');
+        // const winDivLeftElm = document.querySelector('.winDivElm');
+        // const winDivLeftFormInput = document.createElement('input');
+        // winDivLeftFormInput.classList.add('winDivLeftFormInput');
+        // const winDivLeftFormButton = document.createElement('button');
+        // winDivLeftFormButton.classList.add('winDivLeftFormButton');
+        // winDivLeftFormButton.textContent = 'Confirmer';
+        
+        // winDivLeftForm.append(winDivLeftFormInput);
+        // winDivLeftForm.append(winDivLeftFormButton);
+        
+        // const winDivLeftDivForm = document.createElement('div');
+        // winDivLeftDivForm.append(winDivLeftForm);
+        // winDivLeftElm.append(winDivLeftDivForm);
 
     },   
     goToLeft () {
@@ -414,10 +410,10 @@ const base = {
     listenKeyboardEvents () {
         document.addEventListener ('keyup', base.handleKeyboardEvents);
     },
-    listenEventInputNameElm () {
-        const buttonInputNameElm = document.querySelector('#button-inputName');
-        buttonInputNameElm.addEventListener ('click', base.handleSubmitHeroName);
-    },
+    // listenEventInputNameElm () {
+    //     const buttonInputNameElm = document.querySelector('#button-inputName');
+    //     buttonInputNameElm.addEventListener ('click', base.handleSubmitHeroName);
+    // },
     handleKeyboardEvents (event) {
         const keyupPressed = event.key;
         console.log(keyupPressed);
@@ -444,6 +440,16 @@ const base = {
         base.clearBoard();
         base.player.nextLvl();
     },
+    handleOnClickConfirmerButton(event){
+        event.preventDefault();
+        const dialogBox = document.querySelector('.dialogBox');
+        dialogBox.style.visibility = 'hidden';
+        const inputName = document.querySelector('.inputName');
+        const inputNameValue = inputName.value;
+        const heroName = document.querySelector('.heroName');
+        heroName.textContent = inputNameValue;
+        base.player.name = inputNameValue;
+    },
     handleOnClickOKButton () {
         
         const winDivElm = document.querySelector('.winDivElm');
@@ -452,16 +458,16 @@ const base = {
         base.redrawBoard();
 
     },
-    handleSubmitHeroName (event) {
-        event.preventDefault();
-        const inputNameElm = document.querySelector('#input-name');
-        const inputNameElmValue = inputNameElm.value;
-        inputNameElm.style.placeholder = inputNameElmValue;
-        base.player.name = inputNameElmValue;
-    },
+    // handleSubmitHeroName (event) {
+    //     event.preventDefault();
+    //     const inputNameElm = document.querySelector('#input-name');
+    //     const inputNameElmValue = inputNameElm.value;
+    //     inputNameElm.style.placeholder = inputNameElmValue;
+    //     base.player.name = inputNameElmValue;
+    // },
     init () {    
         base.listenKeyboardEvents();
-        base.listenEventInputNameElm();
+        // base.listenEventInputNameElm();
         base.drawBoard();
     },
 };
